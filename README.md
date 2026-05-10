@@ -75,7 +75,7 @@ If you wish to fork this project and host your own instance of Collage, follow t
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/your-username/collage.git
+git clone https://github.com/xigbotic/collage.git
 cd collage
 ```
 
