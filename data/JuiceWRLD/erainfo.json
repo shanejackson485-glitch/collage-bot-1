@@ -1,0 +1,113 @@
+{
+    "Juiced Up The EP": {
+      "aliases": ["JUTE", "Juiced EP"],
+      "total_leaked_sessions": 2,
+      "total_leaked_songs": 28,
+      "unsurfaced_songs": 5,
+      "era_start": "2014-[?]-[?]",
+      "era_end": "2016-01-31",
+      "image_url": "https://i.ibb.co/20bWyHmg/juiceduptheep.jpg",
+      "color": "#578DCF"
+    },
+    "Affliction": {
+      "aliases": ["AFF"],
+      "total_leaked_sessions": 0,
+      "total_leaked_songs": 24,
+      "unsurfaced_songs": 6,
+      "era_start": "2016-01-31",
+      "era_end": "2017-02-17",
+      "image_url": "https://i.ibb.co/Dg78D9SL/affliction2.jpg",
+      "color": "#000000"
+    },
+    "Heartbroken In Hollywood 9 9 9": {
+      "aliases": ["HIH 999", "Heartbroken", "HIH"],
+      "total_leaked_sessions": 0,
+      "total_leaked_songs": 3,
+      "unsurfaced_songs": 0,
+      "era_start": "2017-02-17",
+      "era_end": "2017-04-12",
+      "image_url": "https://i.ibb.co/wNyGCZB7/heartbrokeninhollywood2.jpg",
+      "color": "#471422"
+    },
+    "JuiceWRLD 9 9 9": {
+      "aliases": ["JW 999", "999 Era", "JW"],
+      "total_leaked_sessions": 5,
+      "total_leaked_songs": 6,
+      "unsurfaced_songs": 2,
+      "era_start": "2017-04-12",
+      "era_end": "2017-06-15",
+      "image_url": "https://i.ibb.co/spskD3Qj/999.jpg",
+      "color": "#1B0706"
+    },
+    "BINGEDRINKINGMUSIC": {
+      "aliases": ["BDM", "Binge Drinking Music"],
+      "total_leaked_sessions": 4,
+      "total_leaked_songs": 6,
+      "unsurfaced_songs": 3,
+      "era_start": "2017-06-15",
+      "era_end": "2017-10-29",
+      "image_url": "https://i.ibb.co/HLXqCLg9/BINGEDRINKINGMUSIC.jpg",
+      "color": "#000000"
+    },
+    "NOTHINGS DIFFERENT": {
+      "aliases": ["ND </3", "Nothing's Different", "ND"],
+      "total_leaked_sessions": 19,
+      "total_leaked_songs": 36,
+      "unsurfaced_songs": 1,
+      "era_start": "2017-10-29",
+      "era_end": "2017-12-22",
+      "image_url": "https://i.ibb.co/YBFQJX8s/nothingsdifferent.jpg",
+      "color": "#CC5437"
+    },
+    "Goodbye & Good Riddance": {
+      "aliases": ["GB&GR", "Goodbye GR", "GBGR"],
+      "total_leaked_sessions": 207,
+      "total_leaked_songs": 367,
+      "unsurfaced_songs": 27,
+      "era_start": "2017-12-22",
+      "era_end": "2018-05-23",
+      "image_url": "https://i.ibb.co/Nds1hHVW/goodbyegoodriddance.jpg",
+      "color": "#3498DB"
+    },
+    "WRLD On Drugs": {
+      "aliases": ["WOD"],
+      "total_leaked_sessions": 128,
+      "total_leaked_songs": 314,
+      "unsurfaced_songs": 49,
+      "era_start": "2018-05-23",
+      "era_end": "2018-10-19",
+      "image_url": "https://i.ibb.co/gbzZsCPN/wod.jpg",
+      "color": "#0721CA"
+    },
+    "Death Race For Love": {
+      "aliases": ["DRFL"],
+      "total_leaked_sessions": 61,
+      "total_leaked_songs": 233,
+      "unsurfaced_songs": 32,
+      "era_start": "2018-10-19",
+      "era_end": "2019-03-08",
+      "image_url": "https://i.ibb.co/20cC9BTC/deathraceforlove.png",
+      "color": "#B83D11"
+    },
+    "Outsiders (JW3)": {
+      "aliases": ["OUT", "JW3", "Outsiders"],
+      "total_leaked_sessions": 17,
+      "total_leaked_songs": 251,
+      "unsurfaced_songs": 60,
+      "era_start": "2019-03-08",
+      "era_end": "2019-12-08",
+      "image_url": "https://i.ibb.co/93hFgB16/jw3-cover.jpg",
+      "color": "#161213"
+    },
+    "Posthumous": {
+      "aliases": ["POST", "Posthumous Era"],
+      "total_leaked_sessions": 30,
+      "total_leaked_songs": 206,
+      "unsurfaced_songs": 116,
+      "era_start": "2019-12-08",
+      "era_end": "Present",
+      "image_url": "https://i.ibb.co/QF7dCqWY/posthumous.webp",
+      "color": "#131313"
+    }
+  }
+  

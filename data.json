@@ -1,0 +1,13 @@
+{
+    "whitelist": {},
+    "reasons": {},
+    "deleted_messages": [],
+    "filtered_words": [
+        "badword1",
+        "badword2",
+        "oxycodone",
+        "nigga",
+        "nigger",
+        "54"
+    ]
+}

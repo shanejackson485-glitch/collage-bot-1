@@ -1,0 +1,7 @@
+{
+  "token": "INSERT_TOKEN_HERE",
+  "prefix": "-",
+  "asset_channel_id": "0",
+  "admin_user_id": 0,
+  "whitelisted_users": []
+}
