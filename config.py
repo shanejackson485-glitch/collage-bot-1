@@ -36,23 +36,9 @@ SESSION_ARCHIVE_CHANNEL_ID = 0
 
 
 
-def load_data():
-    try:
-        with open("data.json", "r") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        logging.error("data.json not found!")
-        return {"whitelist": {}, "reasons": {}, "deleted_messages": []}
-
-def save_data(data):
-    with open("data.json", "w") as file:
-        json.dump(data, file, indent=4)
-
-data = load_data()
 whitelist = []
 afk_users = {}
 premium_role = []
-deleted_messages = data["deleted_messages"]
 LASTFM_API_KEY = ""
 
 

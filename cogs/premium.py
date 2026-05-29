@@ -43,7 +43,6 @@ from datetime import datetime
 import asyncio
 import os
 import sys
-from config import save_data
 from discord import Embed
 import yt_dlp
 import math

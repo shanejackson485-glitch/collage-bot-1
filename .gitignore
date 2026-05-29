@@ -216,11 +216,18 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Media and Music Assets
+TaylorInfoDB/
+YBInfoDB/
+JuiceInfoDB/
+CartiInfoDB/
+AriInfoDB/
+UziInfoDB/
 assets/
 *.mp3
 *.flac
 *.wav
 *.m4a
+*.html
 
 # Application Logs
 logs/
