@@ -1,7 +1,7 @@
 {
-  "token": "INSERT_TOKEN_HERE",
+  "token": "DISCORD_TOKEN",
   "prefix": "-",
   "asset_channel_id": "0",
-  "admin_user_id": 0,
+  "admin_user_id": 1354629588965134376,
   "whitelisted_users": []
 }
