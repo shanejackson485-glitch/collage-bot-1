@@ -1,3 +1,13 @@
 discord.py==2.4.0
 python-dotenv==1.0.1
 audioop-lts
+mutagen
+PIL
+pydub
+yt_dlp
+bs4
+regex
+humanize
+psutil
+pytz
+eyed3
