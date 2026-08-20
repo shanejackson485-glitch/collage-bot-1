@@ -14,28 +14,31 @@ intents.message_content = True  # Required to read message commands
 bot = commands.Bot(command_prefix=",", intents=intents)
 
 
-# --- 1. THE FOLDER LOADER ---
-# This special function runs BEFORE the bot logs in. 
-# It loops through your folders and loads all your python command files.
+# --- 1. RENDER-PROOF FOLDER LOADER ---
+# This function automatically scans and loads all your folder files before logging in.
 @bot.event
 async def setup_hook():
-    # List of all the folders you store your command files in
+    # Gets the exact directory where this main file lives on Render's server
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    
     folders_to_load = ["cogs", "heist", "data"]
     
     for folder in folders_to_load:
-        if os.path.exists(folder):
+        full_folder_path = os.path.join(BASE_DIR, folder)
+        
+        if os.path.exists(full_folder_path):
             print(f"📁 Scanning folder: {folder}...")
-            for filename in os.listdir(folder):
+            for filename in os.listdir(full_folder_path):
                 if filename.endswith(".py") and not filename.startswith("__"):
                     try:
-                        # Converts 'cogs/heist_command.py' into 'cogs.heist_command'
+                        # Format needed for discord.py: "foldername.filename"
                         cog_path = f"{folder}.{filename[:-3]}"
                         await bot.load_extension(cog_path)
                         print(f"   ✅ Loaded: {cog_path}")
                     except Exception as e:
                         print(f"   ❌ Failed to load {filename}: {e}")
         else:
-            print(f"⚠️ Warning: Folder '{folder}' was not found in your project directory.")
+            print(f"⚠️ Warning: Folder '{folder}' not found at {full_folder_path}")
 
 
 # --- 2. THE STARTUP SYNCER ---
@@ -43,7 +46,7 @@ async def setup_hook():
 async def on_ready():
     print(f"✅ Logged in successfully as {bot.user.name}")
     try:
-        # This registers all the loaded slash commands with Discord globally
+        # Registers your slash commands globally
         synced = await bot.tree.sync()
         print(f"🔄 Automatically synced {len(synced)} slash commands globally!")
     except Exception as e:
