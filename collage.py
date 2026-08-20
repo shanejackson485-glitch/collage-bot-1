@@ -5,12 +5,9 @@ import logging
 import time
 import discord
 from discord.ext import commands
-from patched_gateway import PatchedWebSocket
 
-# Hot-patching the gateway as required by your architecture
-discord.gateway.DiscordWebSocket = PatchedWebSocket
-discord.client.DiscordWebSocket = PatchedWebSocket
-discord.state.DiscordWebSocket = PatchedWebSocket
+# REMOVED: patched_gateway import
+# REMOVED: The 3 lines assigning PatchedWebSocket to discord.gateway/client/state
 
 # Create the logs folder automatically if it does not exist on Render
 os.makedirs('logs', exist_ok=True)
@@ -18,11 +15,10 @@ os.makedirs('logs', exist_ok=True)
 # Define your file handler
 handler = logging.FileHandler(filename='logs/collage.log', encoding='utf-8', mode='a')
 
-# Load Configuration
 try:
     with open("data/Developer/config.json", "r") as config_file:
         config = json.load(config_file)
-    TOKEN = config["token"].strip()  # .strip() sanitizes hidden spacing/newlines
+    TOKEN = config["token"].strip()
     PREFIX = config["prefix"]
 except FileNotFoundError:
     print("ERROR: config.json not found. Please create it.")
@@ -73,25 +69,18 @@ bot = Bot(command_prefix=get_prefix, intents=intents, help_command=None)
 
 
 async def main():
-    # Setup clean manual logging without using default root loggers
     discord.utils.setup_logging(handler=handler, root=False)
     
-    # Pre-flight check: Make sure your script actually loaded a token string
-    if not TOKEN or TOKEN == "YOUR_TOKEN_HERE":
-        print("CRITICAL ERROR: The bot token is empty or placeholder in config.json.")
+    if not TOKEN:
+        print("CRITICAL ERROR: Token empty in config.json.")
         return
 
     async with bot:
         try:
             await bot.start(TOKEN)
         except discord.errors.LoginFailure:
-            print("\n" + "="*60)
-            print("CRITICAL CONFIGURATION ERROR: 401 UNAUTHORIZED")
-            print("Discord completely rejected this token. Please:")
-            print("1. Go to the Discord Developer Portal.")
-            print("2. Re-generate a fresh token from the 'Bot' tab.")
-            print("3. Ensure you copied the Bot Token, NOT your Client ID/Public Key.")
-            print("="*60 + "\n")
+            print("\nCRITICAL CONFIGURATION ERROR: 401 UNAUTHORIZED")
+            print("Please make sure your token is fully updated in your JSON setup.")
         except Exception as e:
             print(f"An unexpected startup error occurred: {e}")
 
