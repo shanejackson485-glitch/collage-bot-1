@@ -97,7 +97,8 @@ bot = Bot(command_prefix=get_prefix, intents=intents, help_command=None)
 
 async def main():
     async with bot:
-        await bot.start(TOKEN)
+        # log_handler=None turns off the default logger that causes the encoding error
+        await bot.start(TOKEN, log_handler=None)
 
 
 if __name__ == "__main__":
