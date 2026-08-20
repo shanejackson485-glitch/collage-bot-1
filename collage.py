@@ -1,41 +1,25 @@
 import os
 import asyncio
-import json
 import logging
 import time
 import discord
 from discord.ext import commands
 
-# REMOVED: patched_gateway import
-# REMOVED: The 3 lines assigning PatchedWebSocket to discord.gateway/client/state
-
-# Create the logs folder automatically if it does not exist on Render
+# Automatically set up logs folder in your workspace
 os.makedirs('logs', exist_ok=True)
-
-# Define your file handler
 handler = logging.FileHandler(filename='logs/collage.log', encoding='utf-8', mode='a')
 
-try:
-    with open("data/Developer/config.json", "r") as config_file:
-        config = json.load(config_file)
-    TOKEN = config["token"].strip()
-    PREFIX = config["prefix"]
-except FileNotFoundError:
-    print("ERROR: config.json not found. Please create it.")
-    exit()
-except KeyError as e:
-    print(f"ERROR: Missing key {e} in config.json.")
-    exit()
-
+# FETCH FROM RENDER ENVIRONMENT VARIABLES INSTEAD OF CONFIG.JSON
+TOKEN = os.getenv("DISCORD_TOKEN")
+PREFIX = os.getenv("DISCORD_PREFIX", "!")  # Defaults to ! if not provided
 
 class Bot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.config = config
         self.start_time = time.time()
 
     async def setup_hook(self):
-        """This is called once when the bot logs in to load cogs recursively."""
+        """Loads your extension cogs dynamically at execution setup."""
         print("Loading cogs...")
         for root, dirs, files in os.walk("./cogs"):
             for filename in files:
@@ -50,40 +34,40 @@ class Bot(commands.Bot):
         print("Cog loading complete.")
 
     async def on_message(self, message):
-        """Override for default on_message event"""
         pass
 
-
+# Gateway Intent Declarations
 intents = discord.Intents.default()
 intents.message_content = False
 intents.members = True
-
 
 def get_prefix(bot, message):
     mentions = commands.when_mentioned(bot, message)
     spaced_mentions = [m + " " for m in mentions]
     return spaced_mentions + list(mentions) + [PREFIX]
 
-
 bot = Bot(command_prefix=get_prefix, intents=intents, help_command=None)
-
 
 async def main():
     discord.utils.setup_logging(handler=handler, root=False)
     
+    # Validation step to ensure your hosting parameters were saved correctly
     if not TOKEN:
-        print("CRITICAL ERROR: Token empty in config.json.")
+        print("\n" + "="*60)
+        print("CRITICAL DEPLOYMENT ERROR: 'DISCORD_TOKEN' IS NOT SET!")
+        print("Please log into Render, navigate to Environment Variables,")
+        print("and add a variable named 'DISCORD_TOKEN' with your bot secret.")
+        print("="*60 + "\n")
         return
 
     async with bot:
         try:
             await bot.start(TOKEN)
         except discord.errors.LoginFailure:
-            print("\nCRITICAL CONFIGURATION ERROR: 401 UNAUTHORIZED")
-            print("Please make sure your token is fully updated in your JSON setup.")
+            print("\nCRITICAL AUTHENTICATION ERROR: 401 UNAUTHORIZED")
+            print("The token stored inside your Render environment dashboard was rejected.")
         except Exception as e:
             print(f"An unexpected startup error occurred: {e}")
-
 
 if __name__ == "__main__":
     try:
