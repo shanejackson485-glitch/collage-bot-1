@@ -15,6 +15,7 @@ discord.state.DiscordWebSocket = PatchedWebSocket
 # Create the logs folder automatically if it does not exist on Render
 os.makedirs('logs', exist_ok=True)
 
+# Define your file handler
 handler = logging.FileHandler(filename='logs/collage.log', encoding='utf-8', mode='a')
 
 try:
@@ -99,9 +100,12 @@ bot = Bot(command_prefix=get_prefix, intents=intents, help_command=None)
 
 
 async def main():
+    # Pass your custom handler here to manage logging manually with bot.start()
+    discord.utils.setup_logging(handler=handler, root=False)
+    
     async with bot:
-        # log_handler=None turns off the default logger that causes the encoding error
-        await bot.start(TOKEN, log_handler=None)
+        # Removed log_handler=None to fix the TypeError
+        await bot.start(TOKEN)
 
 
 if __name__ == "__main__":
