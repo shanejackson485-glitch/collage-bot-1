@@ -12,6 +12,9 @@ discord.client.DiscordWebSocket = PatchedWebSocket
 discord.state.DiscordWebSocket = PatchedWebSocket
 
 
+# Create the logs folder automatically if it does not exist on Render
+os.makedirs('logs', exist_ok=True)
+
 handler = logging.FileHandler(filename='logs/collage.log', encoding='utf-8', mode='a')
 
 try:
