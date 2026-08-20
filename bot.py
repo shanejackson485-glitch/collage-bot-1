@@ -14,34 +14,25 @@ intents.message_content = True  # Required to read message commands
 bot = commands.Bot(command_prefix=",", intents=intents)
 
 
-# --- 🚨 EXTREME OVERRIDE AUTO-LOADER ---
-# This looks through EVERY folder in your project automatically
-@bot.event
-async def setup_hook():
-    print("🔍 Beginning absolute scan of your project files...")
-    
-    # Get the root location of your running application on Render
+# --- 🚨 SYNCHRONOUS RUNNER OVERRIDE ---
+# We load the files BEFORE starting the bot loop entirely 
+# to bypass Python 3.14 async hook changes.
+async def load_all_extensions():
+    print("🔍 [STARTING SCAN] Searching for your folder files...")
     root_dir = os.path.dirname(os.path.abspath(__file__))
-    
-    # We ignore virtual environments and hidden setup files
     ignored_folders = {'.venv', 'venv', '__pycache__', '.git', '.github'}
 
     for root, dirs, files in os.walk(root_dir):
-        # Skip internal system folders entirely
         dirs[:] = [d for d in dirs if d not in ignored_folders]
-        
         for filename in files:
             if filename.endswith(".py") and filename != os.path.basename(__file__) and not filename.startswith("__"):
-                # Find the relative path from your main script to the command file
                 rel_path = os.path.relpath(os.path.join(root, filename), root_dir)
-                # Convert standard paths like 'cogs/heist/file.py' into python modules 'cogs.heist.file'
                 cog_module = rel_path[:-3].replace(os.path.sep, ".")
-                
                 try:
                     await bot.load_extension(cog_module)
                     print(f"   ✅ FORCE LOADED: {cog_module}")
                 except Exception as e:
-                    print(f"   ❌ Found file '{cog_module}' but it failed to load: {e}")
+                    print(f"   ❌ Found file '{cog_module}' but it failed: {e}")
 
 
 # --- THE STARTUP SYNCER ---
@@ -55,9 +46,18 @@ async def on_ready():
         print(f"❌ Error syncing commands: {e}")
 
 
-# --- START THE BOT ---
-if __name__ == "__main__":
+# --- THE MAIN ENTRY POINT ---
+async def main():
+    # 1. Force the extensions to load first
+    await load_all_extensions()
+    
+    # 2. Run the bot
     if TOKEN:
-        bot.run(TOKEN)
+        async with bot:
+            await bot.start(TOKEN)
     else:
         print("❌ Error: DISCORD_TOKEN is missing from the environment variables.")
+
+if __name__ == "__main__":
+    # Standard way to run async main in modern Python
+    asyncio.run(main())
