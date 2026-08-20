@@ -14,46 +14,48 @@ intents.message_content = True  # Required to read message commands
 bot = commands.Bot(command_prefix=",", intents=intents)
 
 
-# --- 1. RENDER-PROOF FOLDER LOADER ---
-# This function automatically scans and loads all your folder files before logging in.
+# --- 🚨 EXTREME OVERRIDE AUTO-LOADER ---
+# This looks through EVERY folder in your project automatically
 @bot.event
 async def setup_hook():
-    # Gets the exact directory where this main file lives on Render's server
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    print("🔍 Beginning absolute scan of your project files...")
     
-    folders_to_load = ["cogs", "heist", "data"]
+    # Get the root location of your running application on Render
+    root_dir = os.path.dirname(os.path.abspath(__file__))
     
-    for folder in folders_to_load:
-        full_folder_path = os.path.join(BASE_DIR, folder)
+    # We ignore virtual environments and hidden setup files
+    ignored_folders = {'.venv', 'venv', '__pycache__', '.git', '.github'}
+
+    for root, dirs, files in os.walk(root_dir):
+        # Skip internal system folders entirely
+        dirs[:] = [d for d in dirs if d not in ignored_folders]
         
-        if os.path.exists(full_folder_path):
-            print(f"📁 Scanning folder: {folder}...")
-            for filename in os.listdir(full_folder_path):
-                if filename.endswith(".py") and not filename.startswith("__"):
-                    try:
-                        # Format needed for discord.py: "foldername.filename"
-                        cog_path = f"{folder}.{filename[:-3]}"
-                        await bot.load_extension(cog_path)
-                        print(f"   ✅ Loaded: {cog_path}")
-                    except Exception as e:
-                        print(f"   ❌ Failed to load {filename}: {e}")
-        else:
-            print(f"⚠️ Warning: Folder '{folder}' not found at {full_folder_path}")
+        for filename in files:
+            if filename.endswith(".py") and filename != os.path.basename(__file__) and not filename.startswith("__"):
+                # Find the relative path from your main script to the command file
+                rel_path = os.path.relpath(os.path.join(root, filename), root_dir)
+                # Convert standard paths like 'cogs/heist/file.py' into python modules 'cogs.heist.file'
+                cog_module = rel_path[:-3].replace(os.path.sep, ".")
+                
+                try:
+                    await bot.load_extension(cog_module)
+                    print(f"   ✅ FORCE LOADED: {cog_module}")
+                except Exception as e:
+                    print(f"   ❌ Found file '{cog_module}' but it failed to load: {e}")
 
 
-# --- 2. THE STARTUP SYNCER ---
+# --- THE STARTUP SYNCER ---
 @bot.event
 async def on_ready():
     print(f"✅ Logged in successfully as {bot.user.name}")
     try:
-        # Registers your slash commands globally
         synced = await bot.tree.sync()
         print(f"🔄 Automatically synced {len(synced)} slash commands globally!")
     except Exception as e:
         print(f"❌ Error syncing commands: {e}")
 
 
-# --- 3. START THE BOT ---
+# --- START THE BOT ---
 if __name__ == "__main__":
     if TOKEN:
         bot.run(TOKEN)
